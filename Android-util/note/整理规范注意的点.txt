@@ -1,0 +1,31 @@
+
+
+关于整理项目的util， 我已经写了部分的示例。详见ClipboardUtil ,DeviceUtil.
+
+（差异可直接和项目中的对比。都是从项目来的）
+
+
+整理时需要注意的地方如下：
+ 
+       1， 命令尽量规范，通用。让别人一看就知道类/方法/参数 名称的含义。简单的可以不写注释。
+     
+       2， 由于是工具类，不要依赖其他第三方库。 尽量少存静态对象在类上。  
+
+       3,  尽量考虑全点，由项目的一个点想到其他点，从而封装成单独的工具类.
+           如原来项目的DeviceUtil.copyText 。 我发散成了ClipboardUtil.
+
+       4,  如果有循环，需要注意.
+
+           eg: // files.length 可以优化。避免每次循环都去计算。
+               for (int i = 0; i < files.length; i++) {
+                    deleteFolderFile(files[i].getAbsolutePath(), true);
+                } 
+            //优化后
+             for (int i = 0,size = files.length; i < size; i++) {
+                    deleteFolderFile(files[i].getAbsolutePath(), true);
+                } 
+
+       5， 关于代码的复用尽量考虑到极致。 尽量不出现重复代码。
+
+       6， 写任何一个开源项目，主要就从命名规范，使用者的易用性，代码的健壮性，可扩展性出发的。
+           这是整理的核心思想，必须记住。
