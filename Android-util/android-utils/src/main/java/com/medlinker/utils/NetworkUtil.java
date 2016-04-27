@@ -14,9 +14,6 @@ public class NetworkUtil {
 
     /**
      * 判断网络是否可用
-     *
-     * @param context
-     * @return
      */
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -37,9 +34,6 @@ public class NetworkUtil {
 
     /**
      * 判断WIFI是否连接
-     *
-     * @param context
-     * @return
      */
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

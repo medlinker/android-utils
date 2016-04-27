@@ -2,10 +2,8 @@ package com.medlinker.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -37,7 +35,6 @@ public class InputMethodUtil {
 
     /**
      * 隐藏输入法
-     *
      * @param activity Activity
      */
     public static void hintInputMethod(Activity activity) {
@@ -58,37 +55,6 @@ public class InputMethodUtil {
     public static void hideInputMethod(Context context, EditText editText) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-    }
-
-    /**
-     * 判断输入法是否可见
-     *
-     * @param activity
-     * @param listener
-     */
-    public static void observeSoftKeyboard(Activity activity, final OnSoftKeyboardChangedListener listener) {
-        final View decorView = activity.getWindow().getDecorView();
-        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            int previousKeyboardHeight = -1;
-
-            @Override
-            public void onGlobalLayout() {
-                Rect rect = new Rect();
-                decorView.getWindowVisibleDisplayFrame(rect);
-                int displayHeight = rect.bottom - rect.top;
-                int height = decorView.getHeight();
-                int keyboardHeight = height - displayHeight;
-                if (previousKeyboardHeight != keyboardHeight) {
-                    boolean hide = (double) displayHeight / height > 0.8;
-                    listener.onSoftKeyBoardChange(keyboardHeight, !hide);
-                }
-                previousKeyboardHeight = height;
-            }
-        });
-    }
-
-    public interface OnSoftKeyboardChangedListener {
-        void onSoftKeyBoardChange(int height, boolean visible);
     }
 
 }
