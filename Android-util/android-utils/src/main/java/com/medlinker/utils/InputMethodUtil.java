@@ -37,7 +37,6 @@ public class InputMethodUtil {
 
     /**
      * 隐藏输入法
-     *
      * @param activity Activity
      */
     public static void hintInputMethod(Activity activity) {
@@ -60,35 +59,32 @@ public class InputMethodUtil {
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    /**
-     * 判断输入法是否可见
-     *
-     * @param activity
-     * @param listener
-     */
-    public static void observeSoftKeyboard(Activity activity, final OnSoftKeyboardChangedListener listener) {
-        final View decorView = activity.getWindow().getDecorView();
-        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            int previousKeyboardHeight = -1;
 
-            @Override
-            public void onGlobalLayout() {
-                Rect rect = new Rect();
-                decorView.getWindowVisibleDisplayFrame(rect);
-                int displayHeight = rect.bottom - rect.top;
-                int height = decorView.getHeight();
-                int keyboardHeight = height - displayHeight;
-                if (previousKeyboardHeight != keyboardHeight) {
-                    boolean hide = (double) displayHeight / height > 0.8;
-                    listener.onSoftKeyBoardChange(keyboardHeight, !hide);
-                }
-                previousKeyboardHeight = height;
-            }
-        });
-    }
+    public static abstract class SoftKeyboardVisibleLayoutListenerImpl implements ViewTreeObserver.OnGlobalLayoutListener{
 
-    public interface OnSoftKeyboardChangedListener {
-        void onSoftKeyBoardChange(int height, boolean visible);
+        private static final  Rect RECT = new Rect();
+        private final View v;
+
+        public SoftKeyboardVisibleLayoutListenerImpl(View v) {
+            this.v = v;
+        }
+
+        @Override
+        public void onGlobalLayout() {
+            v.getWindowVisibleDisplayFrame(RECT);
+            int displayHeight = RECT.bottom - RECT.top;
+            int height = v.getHeight();
+            int keyboardHeight = height - displayHeight;
+            boolean hide = (double) displayHeight / height > 0.8;
+            onSoftKeyboardCallback(keyboardHeight, !hide);
+            ViewCompatUtil.removeOnGlobalLayoutListener(v,this);
+        }
+
+        /**
+         * @param keyboardHeight   the height of keyboard
+         * @param visible is the keyboard visible
+         */
+        protected abstract void onSoftKeyboardCallback(int keyboardHeight, boolean visible);
     }
 
 }

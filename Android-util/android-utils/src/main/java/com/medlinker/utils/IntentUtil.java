@@ -56,7 +56,6 @@ public class IntentUtil {
 
     /**
      * 跳转到相关的应用程序
-     *
      * @param context 上下文
      * @param url     链接地址
      */

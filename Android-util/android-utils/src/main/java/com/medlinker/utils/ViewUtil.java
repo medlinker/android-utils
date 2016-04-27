@@ -20,7 +20,6 @@ public class ViewUtil {
 
     /**
      * 设置输入框光标位置到末尾
-     *
      * @param editText EditText
      */
     public static void setEditTextCursor(EditText editText) {

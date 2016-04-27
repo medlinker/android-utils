@@ -30,28 +30,22 @@ public class TimeUtil {
 
     /**
      * 格式化时间 毫秒
-     *
      * @param milliSecond
      * @return
      */
     public static String formatTimeByPattern(long milliSecond, String pattern) {
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
-        String date = format.format(new Date(milliSecond));
-        return date;
+        return new SimpleDateFormat(pattern).format(new Date(milliSecond));
     }
 
     /**
      * 格式化时间  string
      * 将短时间格式字符串转换为时间 yyyy-MM-dd
-     *
      * @param strDate
      * @return
      */
     public static Date formatTimeByPattern(String strDate, String pattern) {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        ParsePosition pos = new ParsePosition(0);
-        Date strtodate = formatter.parse(strDate, pos);
-        return strtodate;
+        return formatter.parse(strDate, new ParsePosition(0));
     }
 
     /**
@@ -239,10 +233,6 @@ public class TimeUtil {
 
     /**
      * 判断二个时间是否在同一个周
-     *
-     * @param date1
-     * @param date2
-     * @return
      */
     public static boolean isSameWeekDates(Date date1, Date date2) {
         Calendar cal1 = Calendar.getInstance();
@@ -266,9 +256,6 @@ public class TimeUtil {
 
     /**
      * 获取一个月的最后一天
-     *
-     * @param dat
-     * @return
      */
     public static String getEndDateOfMonth(String dat) {// yyyy-MM-dd
         String str = dat.substring(0, 8);

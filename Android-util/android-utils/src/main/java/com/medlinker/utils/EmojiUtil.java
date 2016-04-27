@@ -10,9 +10,6 @@ public class EmojiUtil {
 
     /**
      * 判断一个字符串是否包含emoji表情
-     *
-     * @param str
-     * @return
      */
     public static boolean containsEmoji(String str) {
         int len = str.length();
