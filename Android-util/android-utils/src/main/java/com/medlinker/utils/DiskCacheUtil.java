@@ -11,14 +11,9 @@ import java.math.BigDecimal;
  */
 public class DiskCacheUtil {
 
-    /** 默认缓存大小 */
-    public static final String DEFAULT_CACHE_SIZE = "0M";
-
-    private DiskCacheUtil() {
-    }
-
     /**
      * 清除应用内部缓存(/data/data/com.xxx.xxx/cache)
+     *
      * @param context 应用上下文
      */
     public static void cleanInternalCache(Context context) {
@@ -27,6 +22,7 @@ public class DiskCacheUtil {
 
     /**
      * 清除应用数据库(/data/data/com.xxx.xxx/databases)
+     *
      * @param context 应用上下文
      */
     public static void cleanDatabase(Context context) {
@@ -35,8 +31,9 @@ public class DiskCacheUtil {
 
     /**
      * 清除应用指定名称的数据库
+     *
      * @param context 应用上下文
-     * @param dbName 数据库名称
+     * @param dbName  数据库名称
      */
     public static void cleanDatabase(Context context, String dbName) {
         context.deleteDatabase(dbName);
@@ -44,6 +41,7 @@ public class DiskCacheUtil {
 
     /**
      * 清除本应用SharedPreference(/data/data/com.xxx.xxx/shared_prefs)
+     *
      * @param context 应用上下文
      */
     public static void cleanSharedPreference(Context context) {
@@ -52,6 +50,7 @@ public class DiskCacheUtil {
 
     /**
      * 清除/data/data/com.xxx.xxx/files下的内容
+     *
      * @param context 应用上下文
      */
     public static void cleanFiles(Context context) {
@@ -60,6 +59,7 @@ public class DiskCacheUtil {
 
     /**
      * 清除外部cache下的内容(/mnt/sdcard/android/data/com.xxx.xxx/cache)
+     *
      * @param context 应用上下文
      */
     public static void cleanExternalCache(Context context) {
@@ -70,6 +70,7 @@ public class DiskCacheUtil {
 
     /**
      * 清除自定义路径下的文件
+     *
      * @param filePath 文件目录
      */
     public static void cleanCustomCache(String filePath) {
@@ -78,7 +79,8 @@ public class DiskCacheUtil {
 
     /**
      * 清除应用数据
-     * @param context 应用上下文
+     *
+     * @param context   应用上下文
      * @param filePaths 文件目录集
      */
     public static void cleanApplicationData(Context context, String... filePaths) {
@@ -97,6 +99,7 @@ public class DiskCacheUtil {
 
     /**
      * 删除某个文件夹下的文件
+     *
      * @param directory
      */
     private static void deleteFilesByDirectory(File directory) {
@@ -111,12 +114,13 @@ public class DiskCacheUtil {
      * 获取文件大小<br />
      * Context.getExternalFilesDir() --> SDCard/Android/data/应用的包名/files/目录，一般放一些长时间保存的数据<br />
      * Context.getExternalCacheDir() --> SDCard/Android/data/应用包名/cache/目录，一般存放临时缓存数据<br />
+     *
      * @param file 文件
      * @return
      * @throws Exception
      * @see Context#getExternalCacheDir()
      * @see Context#getExternalFilesDir(String)
-    */
+     */
     public static long getFolderSize(File file) throws Exception {
         long size = 0;
         try {
@@ -173,6 +177,7 @@ public class DiskCacheUtil {
 
     /**
      * 获取缓存文件大小
+     *
      * @param file
      * @return
      * @throws Exception
@@ -183,10 +188,11 @@ public class DiskCacheUtil {
 
     /**
      * 格式化单位
+     *
      * @param size 大小
      * @return 指定格式的字符串
      */
-    public static String getFormatSize(long size,String defaultSizeStr) {
+    public static String getFormatSize(long size, String defaultSizeStr) {
         if (size <= 0) {
             return defaultSizeStr;
         }
@@ -206,8 +212,8 @@ public class DiskCacheUtil {
         return result.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "T";
     }
 
-    private static String doubleTrans(double d){
-        if (d%1.0==0){
+    private static String doubleTrans(double d) {
+        if (d % 1.0 == 0) {
             // 小数是0
             return String.valueOf(Math.round(d));
         }
@@ -216,6 +222,7 @@ public class DiskCacheUtil {
 
     /**
      * 格式化单位
+     *
      * @param size 大小
      * @return 指定格式的字符串
      */
@@ -245,6 +252,7 @@ public class DiskCacheUtil {
 
     /**
      * 清除WebView默认缓存
+     *
      * @param context 应用上下文
      */
     public static void clearWebCache(Context context) {
@@ -254,71 +262,4 @@ public class DiskCacheUtil {
         context.getApplicationContext().deleteDatabase("webview.db");
         context.getApplicationContext().deleteDatabase("webviewCache.db");
     }
-
-     //清除磁盘缓存
-   /* public static void clearDiskCache() {
-        // 清除图片磁盘缓存
-        clearImageDiskCache();
-
-        // 清除网络磁盘缓存
-        clearNetworkCache();
-    }*/
-
-     //读取磁盘缓存
-   /* public static String readDiskCache() {
-        long imageCacheSize = readImageDiskCache();
-        long networkCacheSize = readNetworkCache();
-        try {
-            return getFormatSize(imageCacheSize + networkCacheSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return DEFAULT_CACHE_SIZE;
-    }*/
-
-    //**
-     // 清除图片磁盘缓存
-   /* public static void clearImageDiskCache() {
-        try {
-            Fresco.getImagePipeline().clearDiskCaches();
-            Fresco.getImagePipelineFactory().getMainDiskStorageCache().clearAll();
-            Fresco.getImagePipelineFactory().getSmallImageDiskStorageCache().clearAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-      //读取图片磁盘缓存大小
-    /*private static long readImageDiskCache() {
-        try {
-            long mainSize = Fresco.getImagePipelineFactory().getMainDiskStorageCache().getSize();
-            long smallSize = Fresco.getImagePipelineFactory().getSmallImageDiskStorageCache().getSize();
-            return (mainSize + smallSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }*/
-
-     //清除网络磁盘缓存
-   /* public static void clearNetworkCache() {
-        try {
-            Api.getInstance().getRequestQueue().getCache().clear();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-     //读取网络磁盘缓存大小
-    /*
-    private static long readNetworkCache() {
-        final String DEFAULT_CACHE_DIR = "volley";
-        try {
-            File cacheDir = new File(MedlinkerApp.getApplication().getCacheDir(), DEFAULT_CACHE_DIR);
-            return getFolderSize(cacheDir);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }*/
 }
