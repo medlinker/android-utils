@@ -2,10 +2,8 @@ package com.medlinker.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -57,34 +55,6 @@ public class InputMethodUtil {
     public static void hideInputMethod(Context context, EditText editText) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-    }
-
-
-    public static abstract class SoftKeyboardVisibleLayoutListenerImpl implements ViewTreeObserver.OnGlobalLayoutListener{
-
-        private static final  Rect RECT = new Rect();
-        private final View v;
-
-        public SoftKeyboardVisibleLayoutListenerImpl(View v) {
-            this.v = v;
-        }
-
-        @Override
-        public void onGlobalLayout() {
-            v.getWindowVisibleDisplayFrame(RECT);
-            int displayHeight = RECT.bottom - RECT.top;
-            int height = v.getHeight();
-            int keyboardHeight = height - displayHeight;
-            boolean hide = (double) displayHeight / height > 0.8;
-            onSoftKeyboardCallback(keyboardHeight, !hide);
-            ViewCompatUtil.removeOnGlobalLayoutListener(v,this);
-        }
-
-        /**
-         * @param keyboardHeight   the height of keyboard
-         * @param visible is the keyboard visible
-         */
-        protected abstract void onSoftKeyboardCallback(int keyboardHeight, boolean visible);
     }
 
 }
